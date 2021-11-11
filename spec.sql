@@ -1,6 +1,6 @@
 create or replace package txt as
 --
--- V0.1
+-- V0.2
 --
 
    function strtok (str in varchar2, delimiter    in varchar2) return varchar2_t;
@@ -30,7 +30,8 @@ create or replace package txt as
    procedure printf(fmt varchar2, p_01 varchar2, p_02 varchar2, p_03 varchar2, p_04 varchar2, p_05 varchar2, p_06 varchar2);
  -- }
 
-   function is_number(str varchar2) return boolean;
+   function is_number    (str varchar2) return boolean;
+   function is_number_sql(str varchar2) return number;
 
    function from_(b boolean) return varchar2;
 

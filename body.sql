@@ -295,13 +295,23 @@ create or replace package body txt as
       num number;
    begin
 
---  num := to_number(str, fmt => 'nls_numeric_characters=''.,''');
-      num := to_number(str, null, 'nls_numeric_characters=''.,''');
+  --  num := to_number(str, …, nls_param => 'nls_numeric_characters=''.,''');
+      num := to_number(str);
       return true;
 
    exception when value_error then
       return false;
    end is_number; -- }
+
+   function is_number_sql(str varchar2) return number is -- {
+      num number;
+   begin
+
+      if is_number(str) then return 1; end if;
+
+      return 0;
+
+   end is_number_sql; -- }
 
    function from_(b boolean) return varchar2 is begin -- {
    

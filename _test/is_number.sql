@@ -32,5 +32,7 @@ begin
    test_str('    -42.42  ', true);
    test_str('  4.249E6   ', true);
 
+   test_str('foo'         , false);
+
 end;
 /
