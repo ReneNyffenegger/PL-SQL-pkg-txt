@@ -294,8 +294,12 @@ create or replace package body txt as
    function is_number(str varchar2) return boolean is -- {
       num number;
    begin
+   --
+   -- Check if str is numerical.
+   -- Consider using SQL function validate_conversion(expr as number) instead.
+   --
 
-  --  num := to_number(str, …, nls_param => 'nls_numeric_characters=''.,''');
+   -- num := to_number(str, …, nls_param => 'nls_numeric_characters=''.,''');
       num := to_number(str);
       return true;
 
@@ -306,6 +310,10 @@ create or replace package body txt as
    function is_number_sql(str varchar2) return number is -- {
       num number;
    begin
+   --
+   -- Check if str is numerical.
+   -- Consider using SQL function validate_conversion(expr as number) instead.
+   --
 
       if is_number(str) then return 1; end if;
 

@@ -30,6 +30,10 @@ create or replace package txt as
    procedure printf(fmt varchar2, p_01 varchar2, p_02 varchar2, p_03 varchar2, p_04 varchar2, p_05 varchar2, p_06 varchar2);
  -- }
 
+--
+-- Check if str is numerical.
+-- Consider using SQL function validate_conversion(expr as number) instead.
+--
    function is_number    (str varchar2) return boolean;
    function is_number_sql(str varchar2) return number;
 
