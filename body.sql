@@ -1,7 +1,7 @@
 alter session set plsql_ccflags='string_op_debug:false';
 create or replace package body txt as
 --
--- V0.1
+-- V0.3
 --
 
    function strtok      (str in varchar2, delimiter in varchar2) -- {
@@ -36,29 +36,30 @@ create or replace package body txt as
 
    end strtok; -- }
 
-   function grep_re(str in varchar2, regexp    in varchar2) return varchar2_t -- {
+   function grep_re(str in clob, re in varchar2) return varchar2_t -- {
    is
-      tokens       varchar2_t := varchar2_t();
-      substr_      varchar2(4000);
-      occurrence_  number := 1;
+      tokens       varchar2_t;
    begin
 
-        loop -- {
-
-          substr_ := regexp_substr(str, regexp, occurrence => occurrence_);
-
-          if substr_ is null then
-             return tokens;
-          end if;
-
-          tokens.extend;
-          tokens(tokens.count) := upper(substr_);
-
-          occurrence_ := occurrence_ + 1;
-
-        end loop; -- }
+      select * bulk collect into tokens from grep_re_pipelined(str, re);
+      return tokens;
 
    end grep_re; -- }
+
+   function grep_re_pipelined(str in clob, re varchar2) return clob_t pipelined -- {
+   is
+      occ pls_integer := 1;       
+      cnt pls_integer;
+   begin
+
+      cnt := regexp_count(str, re);
+
+      while occ <= cnt loop -- {
+          pipe row(regexp_substr(str, re, 1, occ));
+          occ := occ + 1;
+      end loop; -- }
+
+   end grep_re_pipelined; -- }
 
    function replace_entire_words(text clob, what varchar2, replacement varchar2) return clob -- {
    is 

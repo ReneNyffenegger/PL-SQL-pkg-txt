@@ -1,10 +1,12 @@
 create or replace package txt as
 --
--- V0.2
+-- V0.3
 --
 
    function strtok (str in varchar2, delimiter    in varchar2) return varchar2_t;
-   function grep_re(str in varchar2, regexp       in varchar2) return varchar2_t;
+   function grep_re(str in clob    , re           in varchar2) return varchar2_t;
+
+   function grep_re_pipelined(str in clob, re in varchar2) return clob_t pipelined;
 
    function replace_entire_words(text clob, what varchar2, replacement varchar2) return clob;
 
